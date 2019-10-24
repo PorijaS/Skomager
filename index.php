@@ -64,7 +64,7 @@
 			  <th style='width: auto'>Sko Størrelse</th>
 			  </tr>";
 
-			$sqlProjects = "SELECT * FROM SkoS";
+			$sqlProjects = "SELECT SkoS.navn, email.email, SkoS.alder, SkoS.sko FROM SkoS inner join email on email.email_id = SkoS.email_id";
 
 			$resultProjects = mysqli_query($mysqli, $sqlProjects);
 

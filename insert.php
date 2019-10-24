@@ -11,15 +11,20 @@
    $alder = mysqli_real_escape_string($mysqli, $_REQUEST['alder']);
    $sko = mysqli_real_escape_string($mysqli, $_REQUEST['sko']);
 
-   $sql_e = "SELECT * FROM SkoS WHERE email='$email'";
+   $sql_e = "SELECT * FROM email WHERE email='$email'";
    $res_e = mysqli_query($mysqli, $sql_e);
-   $sql = "insert into SkoS (navn, email, alder, sko) values ('$navn', '$email', '$alder', '$sko')";
+
+   $sql_i = "insert into email (email) values ('$email')";
 
    if(mysqli_num_rows($res_e) > 0)
    {
      echo "<script type='text/javascript'>alert('Desværre... Email er allerede taget!');</script>";
    }
-   else if($mysqli->query($sql) == true){
+   else if($mysqli->query($sql_i) == true){
+     $lastID = $mysqli->insert_id;
+     $sql = "insert into SkoS (ID, navn, email_id, alder, sko) values ('$lastID', '$navn', '$lastID', '$alder', '$sko')";
+
+     $mysqli->query($sql);
      header("Location: index.php");
         exit;
    } else {
